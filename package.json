@@ -1,0 +1,27 @@
+{
+  "name": "barbu",
+  "version": "1.0.0",
+  "description": "jeu du barbu multiplayer node express socket.io cards",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satch9/barbu.git"
+  },
+  "author": "Jue Vincent",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/satch9/barbu/issues"
+  },
+  "homepage": "https://github.com/satch9/barbu#readme",
+  "dependencies": {
+    "cards": "^1.0.2",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
