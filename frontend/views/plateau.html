@@ -1,0 +1,103 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Barbu</title>
+    <style></style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+    <!-- Game -->
+    <div id="boite">
+        <h1 id="pseudo" class="text-center"></h1>
+        <div id="message"></div>
+        <div id="usernameBox">
+            <input type="text" id="username" />
+            <input type="button" id="btnPseudo" onclick="startGame()" value="GOOOO!">
+        </div>
+        <div id="distributionBox">
+            <input type="button" id="btnDistribution" class="btn btn-primary" value="Distribution des cartes" />
+        </div>
+        <div id="ecrire">
+            <form class="form-inline">
+                <label class="sr-only" for="ecrireMessage">Message</label>
+                <div class="input-group mb-2 mr-sm-2" id="ecrireInputForm">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Message</div>
+                    </div>
+                    <input type="text" class="form-control" id="ecrireMessage" placeholder="..." />
+                </div>
+            </form>
+        </div>
+        <div id="contrat">
+            <form id="buttonChoix">
+                <input type="reset" class="btn btn-info" id="pasDePlis" value="Pas de plis" />
+                <input type="button" class="btn btn-info" id="barbu" value="Barbu" />
+                <input type="reset" class="btn btn-info" id="pasDeCoeur" value="Pas de coeur" />
+                <input type="reset" class="btn btn-info" id="pasDeDame" value="Pas de dame" />
+                <input type="reset" class="btn btn-info" id="reussite" value="Réussite" />
+                <input type="reset" class="btn btn-info" id="salade" value="Salade" />
+            </form>
+        </div>
+        <div id="plateau">
+            <div id="tapis">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div id="player1">
+                            <div id="player1Cards" class="cardArea">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div id="player2">
+                                <!-- <div id="player2Pseudo" class="textBox name"></div>
+                    <div id="player2Score" class="textBox">&nbsp;</div>
+                    <div id="player2Choix" class="textBox">&nbsp;</div> -->
+                                <div id="player2Cards" class="cardArea">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="zoneDeJeu"></div>
+                        </div>
+                        <div class="row">
+                            <div id="player0">
+                                <div id="player0Cards" class="cardArea">&nbsp;</div>
+                                <!-- <div id="player0Pseudo" class="textBox name"></div>
+                    <div id="player0Score" class="textBox">&nbsp;</div>
+                    <div id="player0Choix" class="textBox">&nbsp;</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div id="player3">
+                            <!-- <div id="player3Pseudo" class="textBox name"></div>
+                  <div id="player3Score" class="textBox">&nbsp;</div>
+                  <div id="player3Choix" class="textBox">&nbsp;</div> -->
+                            <div id="player3Cards" class="cardArea">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../plateau.js"></script>
+
+
+</body>
+
+</html>
