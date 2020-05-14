@@ -3,7 +3,7 @@
  */
 
 let app = require("../app");
-
+let io = require("./io/conf");
 let http = require("http");
 
 /**
@@ -23,7 +23,7 @@ let server = http.createServer(app);
  * Sockets.
  */
 
-
+io(server);
 
 /**
  * Listen on provided port, on all network interfaces.
