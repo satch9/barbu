@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    margin-top: 1em;
+    text-align: center;
+}
+
+#boite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#btnPseudo,
+#btnDistribution {
+    display: none;
+}
+
+#ecrire,
+#plateau {
+    display: none;
+}
+
+#message {
+    border: 1px solid grey;
+    margin: auto;
+    width: 640px;
+    height: 150px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+#ecrire,
+#usernameBox {
+    margin-top: 20px;
+}
+
+#ecrire {
+    width: 640px;
+}
+
+@media (min-width: 576px) {
+    .form-inline .input-group {
+        width: 100vw;
+    }
+}
+
+/* #ecrireInputForm {
+    width: 100vw - 320px !important;
+  } */
+
+#buttonChoix {
+    display: none;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+#buttonChoix button {
+    width: 97px;
+    height: auto;
+    margin-right: 10px;
+}
+
+#plateau {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#tapis {
+    margin: auto;
+    display: block;
+    width: 640px;
+    height: auto;
+    border: 1px solid grey;
+    background-color: darkgreen;
+}
+
+/*///////Zone de jeu//////*/
+.cardArea {
+    font-size: 20pt;
+    height: 7em;
+    position: relative;
+}
+
+/* .textBox {
+    background-color: #ffffc0;
+    border-color: #006000 #90f090 #90f090 #006000;
+    border-style: solid;
+    border-width: 1px;
+    clear: right;
+    color: #000000;
+    float: right;
+    font-family: "Times New Roman", serif;
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    padding: 0.1em;
+    text-align: center;
+    width: 6em;
+  } */
+
+/* .name {
+    background-color: #208020;
+    border-color: #60c060 #006000 #006000 #60c060;
+    color: #ffffc0;
+  } */
+
+#zoneDeJeu {
+    width: auto;
+    height: 100px;
+}
+
+/*/////Affichage des cartes///////*/
+.card {
+    background-image: url("../graphics/cardback.gif");
+    border-color: #808080 #000000 #000000 #808080;
+    border-width: 1px;
+    border-style: solid;
+    color: #000000;
+    font-size: 20pt;
+    position: absolute;
+    width: 3.5em;
+    height: 5em;
+}
+
+.front {
+    background-color: #ffffff;
+    color: #000000;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.spotA1 {
+    position: absolute;
+    left: 0.6em;
+    top: 0.3em;
+}
+
+.spotA2 {
+    position: absolute;
+    left: 0.6em;
+    top: 1.5em;
+}
+
+.spotA3 {
+    position: absolute;
+    left: 0.6em;
+    top: 2em;
+}
+
+.spotA4 {
+    position: absolute;
+    left: 0.6em;
+    top: 2.5em;
+}
+
+.spotA5 {
+    position: absolute;
+    left: 0.6em;
+    top: 3.5em;
+}
+
+.spotB1 {
+    position: absolute;
+    left: 1.55em;
+    top: 0.5em;
+}
+
+.spotB2 {
+    position: absolute;
+    left: 1.55em;
+    top: 1em;
+}
+
+.spotB3 {
+    position: absolute;
+    left: 1.55em;
+    top: 2em;
+}
+
+.spotB4 {
+    position: absolute;
+    left: 1.55em;
+    top: 3em;
+}
+
+.spotB5 {
+    position: absolute;
+    left: 1.55em;
+    top: 3.5em;
+}
+
+.spotC1 {
+    position: absolute;
+    left: 2.5em;
+    top: 0.5em;
+}
+
+.spotC2 {
+    position: absolute;
+    left: 2.5em;
+    top: 1.5em;
+}
+
+.spotC3 {
+    position: absolute;
+    left: 2.5em;
+    top: 2em;
+}
+
+.spotC4 {
+    position: absolute;
+    left: 2.5em;
+    top: 2.5em;
+}
+
+.spotC5 {
+    position: absolute;
+    left: 2.5em;
+    top: 3.5em;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.ace {
+    font-size: 300%;
+    position: absolute;
+    left: 0.325em;
+    top: 0.25em;
+}
+
+.index {
+    font-size: 50%;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    left: 0.25em;
+    top: 0.25em;
+}
+
+.face {
+    border: 1px solid #000000;
+    position: absolute;
+    left: 0.5em;
+    top: 0.45em;
+    width: 2.6em;
+    height: 4em;
+}
