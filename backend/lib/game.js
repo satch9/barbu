@@ -1,7 +1,9 @@
 const {
     decks
 } = require("cards");
+const formatMessage = require("../utils/message.js");
 const Player = require('./player.js');
+let plateauName = "Plateau Bot";
 
 class Game {
     constructor(numCards = null) {
@@ -13,8 +15,8 @@ class Game {
         this.donneur = null;
     }
 
-    randomDonneur() {
-        this.donneur = Math.floor(Math.random() * this.players.length);
+    getDonneur() {
+        this.donneur %= this.players.length;
         return this.donneur;
     }
     setCardsPerPlayer(numCards) {
@@ -23,11 +25,85 @@ class Game {
     getNumPlayers() {
         return this.players.length;
     };
+    getPlayers() {
+
+        let p = this.players.map(function (p) {
+            return {
+                'username': p.username,
+                'socketId': p.socket.id,
+                'hand': p.hand,
+                'currentCard': p.currentCard,
+                'score': p.score,
+                'choiceContrat': p.choiceContrat
+            }
+        });
+        return p;
+
+    }
     addPlayer(playername, socket) {
         this.players.push(new Player(playername, socket));
+
+        if (this.getNumPlayers() >= 2) {
+            this.emitPlayers('message', formatMessage(plateauName, `Bienvenue ${playername}`));
+        } else {
+            this.emitOnePlayer(socket, 'message', formatMessage(plateauName, `Bienvenue ${playername}`));
+        }
+
+    }
+
+    startGame() {
+        this.status = 1;
+        this.emitPlayers('message', formatMessage(plateauName, `La table est complète. \n
+        Nous allons vous distribuer vos cartes.
+        `));
+
+        this.dealCards();
+        //console.log("class game ", this.players);
+        this.emitPlayers('startGame', {
+            'players': this.players.map(function (p) {
+                return {
+                    'username': p.username,
+                    'socketId': p.socket.id,
+                    'hand': p.hand,
+                    'currentCard': p.currentCard,
+                    'score': p.score,
+                    'choiceContrat': p.choiceContrat
+                }
+            }),
+            'donneur': this.getDonneur()
+        });
+        this.emitPlayers('message', formatMessage(plateauName, `Cartes distribuées. `));
+        this.emitPlayers('message', formatMessage(plateauName, `La partie peut commencer.`));
+        this.emitPlayers('message', formatMessage(plateauName, `Bonne chance à tous !!`));
+    }
+
+    dealCards() {
+        // Shuffle the deck
+        this.deck.shuffleAll();
+        // Draw a hand of 8 cards from the deck
+        for (let p = 0; p < this.players.length; p++) {
+            let hand = this.deck.draw(this.cardsPerPlayer);
+
+            hand.sort(function (a, b) {
+                return a.suit > b.suit;
+            });
+            /* console.log("newHand ", newHand.sort(function (a, b) {
+                return a.suit < b.suit;
+            })); */
+            this.players[p].addHand(hand);
+            /* console.log("players ", this.players[p].hand); */
+        }
+
     }
 
 
+    refreshCards() {
+        for (var pn = 0; pn < this.getNumPlayers(); pn++) {
+            this.players[pn].hand.sort(function (a, b) {
+                return a.suit > b.suit;
+            });
+        }
+    }
 
     hasGameEnded() {
         return this.status == 2;
@@ -37,14 +113,13 @@ class Game {
     }
     emitPlayers(eventName, payload) {
         // console.log("Emit:", eventName, payload);
-
         for (var pn = 0; pn < this.getNumPlayers(); pn++) {
             // console.log("Emit p" + pn + " (Socket: " + this.players[pn].socket.id + "):", eventName, payload);
             this.players[pn].emit(eventName, payload);
         }
     }
-    emitOnePlayer(socketId, eventName, payload) {
-        this.findPlayer(socketId).emit(eventName, payload);
+    emitOnePlayer(socket, eventName, payload) {
+        socket.emit(eventName, payload);
     }
     findPlayer(socketId) {
         for (var pn = 0; pn < this.getNumPlayers(); pn++) {

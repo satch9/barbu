@@ -18,9 +18,6 @@
             <input type="text" id="username" />
             <input type="button" class="btn btn-default" onclick="startGame()" value="Pseudo">
         </div>
-        <div id="distributionBox">
-            <input type="button" id="btnDistribution" class="btn btn-primary" value="Distribution des cartes" />
-        </div>
         <div id="ecrire">
             <form class="form-inline">
                 <label class="sr-only" for="ecrireMessage">Message</label>
@@ -35,7 +32,7 @@
         <div id="contrat">
             <form id="buttonChoix">
                 <input type="reset" class="btn btn-info" id="pasDePlis" value="Pas de plis" />
-                <input type="button" class="btn btn-info" id="barbu" value="Barbu" />
+                <input type="reset" class="btn btn-info" id="barbu" value="Barbu" />
                 <input type="reset" class="btn btn-info" id="pasDeCoeur" value="Pas de coeur" />
                 <input type="reset" class="btn btn-info" id="pasDeDame" value="Pas de dame" />
                 <input type="reset" class="btn btn-info" id="reussite" value="Réussite" />
@@ -95,6 +92,9 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="../afficheMessage.js"></script>
+    <script src="../lib/cards.js"></script>
+    <script src="../lib/hand.js"></script>
     <script src="../plateau.js"></script>
 
 

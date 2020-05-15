@@ -1,18 +1,20 @@
 const socketio = require("socket.io");
+const formatMessage = require("../utils/message.js");
 const Game = require('../lib/game.js');
 
 module.exports = function (server) {
     // io server
     const io = socketio(server);
 
-    let tables;
+    let tables = [];
     let connectionsLimit = 2;
     let plateauName = "Plateau Bot";
+    let players;
 
     io.on('connection', function (socket) {
         console.log('new connection ', socket.id);
 
-        socket.on('join', socket => {
+        socket.on('join', data => {
             let game;
 
             if (tables.length === 0 || !tables[tables.length - 1].isWaiting()) {
@@ -22,23 +24,29 @@ module.exports = function (server) {
                 game = tables[tables.length - 1];
             }
             game.addPlayer(data.username, socket);
+            //console.log("game ", game);
 
-            game.emitPlayers('gameInfo', {
-                'tableIndex': tables.length - 1,
-                'players': game.getNumPlayers()
-            });
+
+            let indexOfTable = tables.length - 1;
+            game.emitPlayers('message',
+                formatMessage(plateauName,
+                    `vous êtes sur la table ${indexOfTable} et il y a ${game.getNumPlayers()} joueur(s)`)
+            );
 
             if (game.getNumPlayers() < connectionsLimit) {
-                game.emitOnePlayer(socket.id, "message",
+                game.emitOnePlayer(socket, "message",
                     formatMessage(plateauName, "nous attendons un autre joueur."));
-            } else if (game.getNumPlayers() > connectionsLimit) {
-                game.emitOnePlayer(socket.id, "message",
-                    formatMessage(plateauName, "quota de joueurs atteint."));
-                return;
             } else if (game.getNumPlayers() == connectionsLimit) {
+                game.emitPlayers('gameInfo', {
+                    'tableIndex': tables.length - 1,
+                    'players': game.getNumPlayers()
+                });
+
                 game.startGame();
             }
-        })
+        });
+
+
 
         socket.on('disconnect', function () {
             console.log('disconnect');
