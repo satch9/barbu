@@ -26,6 +26,9 @@ class Player {
     emit(eventName, payload) {
         this.socket.emit(eventName, payload);
     }
+    setChoiceContrat(contrat) {
+        this.choiceContrat = contrat;
+    }
 
 }
 module.exports = Player;

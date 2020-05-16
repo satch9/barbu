@@ -19,14 +19,14 @@ socket.on('startGame', function (data) {
     players = data.players;
     donneur = data.donneur;
 
-    let tableIndex = document.getElementById("tableIndex");
+    let zoneDeJeu = document.getElementById("zoneDeJeu");
     let p = document.createElement("p");
-    p.id = "tableIndex";
+    p.id = "donneur";
     let content = document.createTextNode(
         `Donneur : ${players[donneur].username}`
     );
     p.appendChild(content);
-    tableIndex.append(p);
+    zoneDeJeu.append(p);
 
     for (let index = 0; index < players.length; index++) {
         console.log(players[index]);
@@ -97,6 +97,28 @@ socket.on('startGame', function (data) {
 
     }
 
+});
+
+document.getElementById('buttonChoix').addEventListener('click', e => {
+    e.preventDefault();
+    console.log(e.target.value)
+    document.getElementById("buttonChoix").style.display = "none";
+    let choix = e.target.value;
+    socket.emit("choixContrat", {
+        socketId: socket.id,
+        choix: choix
+    });
+});
+
+socket.on('contrat', data => {
+    let zoneDeJeu = document.getElementById("zoneDeJeu");
+    let p = document.createElement("p");
+    p.id = "contrat";
+    let content = document.createTextNode(
+        `Contrat : ${data.choix}`
+    );
+    p.appendChild(content);
+    zoneDeJeu.append(p);
 });
 
 socket.on("gameInfo", function (info) {

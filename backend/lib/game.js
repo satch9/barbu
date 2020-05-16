@@ -105,6 +105,11 @@ class Game {
         }
     }
 
+    refreshChoiceContrat(socketId, contrat) {
+        this.findPlayer(socketId).setChoiceContrat(contrat);
+        console.log(this.players);
+    }
+
     hasGameEnded() {
         return this.status == 2;
     }

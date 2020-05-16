@@ -81,7 +81,9 @@ body {
 
 
 
-#tableIndex {
+#tableIndex,
+#donneur,
+#contrat {
     text-align: center;
     font-size: large;
     color: #ffffff;

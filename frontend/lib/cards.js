@@ -81,6 +81,9 @@ class Card {
 
         cardNode = document.createElement("DIV");
         cardNode.className = "card";
+        cardNode.onclick = function () {
+            selectedCard();
+        };
 
         // Build the front of card.
 

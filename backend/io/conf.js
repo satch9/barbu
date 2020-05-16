@@ -7,15 +7,16 @@ module.exports = function (server) {
     const io = socketio(server);
 
     let tables = [];
-    let connectionsLimit = 2;
+    let connectionsLimit = 4;
     let plateauName = "Plateau Bot";
     let players;
+    let game;
 
     io.on('connection', function (socket) {
         console.log('new connection ', socket.id);
 
         socket.on('join', data => {
-            let game;
+
 
             if (tables.length === 0 || !tables[tables.length - 1].isWaiting()) {
                 game = new Game();
@@ -46,7 +47,11 @@ module.exports = function (server) {
             }
         });
 
-
+        socket.on('choixContrat', data => {
+            console.log(data);
+            game.refreshChoiceContrat(data.socketId, data.choix);
+            game.emitPlayers('contrat', data);
+        });
 
         socket.on('disconnect', function () {
             console.log('disconnect');
