@@ -4,105 +4,233 @@ let gameInfo = null;
 let donneur = null;
 let players;
 let message = document.getElementById("message");
+let zoneDeJeu = document.getElementById("zoneDeJeu");
+let usernameBox = document.getElementById("usernameBox");
+let ecrire = document.getElementById("ecrire");
+let plateau = document.getElementById("plateau");
+let boutonChoix = document.getElementById("buttonChoix");
+let player1 = document.getElementById("player1");
+let player2 = document.getElementById("player2");
+let player3 = document.getElementById("player3");
 
 socket.on("message", data => {
     afficheMessage(data);
-
     message.scrollTop = message.scrollHeight;
 });
 
 socket.on('startGame', function (data) {
-    document.getElementById("usernameBox").style.display = "none";
-    document.getElementById("ecrire").style.display = "block";
-    document.getElementById("plateau").style.display = "block";
+    usernameBox.style.display = "none";
+    ecrire.style.display = "block";
+    plateau.style.display = "block";
 
     players = data.players;
     donneur = data.donneur;
 
-    let zoneDeJeu = document.getElementById("zoneDeJeu");
     let p = document.createElement("p");
     p.id = "donneur";
+    p.className = "blanc";
     let content = document.createTextNode(
         `Donneur : ${players[donneur].username}`
     );
     p.appendChild(content);
     zoneDeJeu.append(p);
 
-    for (let index = 0; index < players.length; index++) {
-        console.log(players[index]);
-        if (players[index].socketId === socket.id) {
-            if (index === donneur) {
-                document.getElementById("buttonChoix").style.display = "flex";
-                switch (index) {
-                    case 0:
-                        let mainDonneur0 = new Hand("player0");
-                        mainDonneur0.addCard(players[index].hand, false);
-                        break;
-                    case 1:
-                        let mainDonneur1 = new Hand("player1");
-                        mainDonneur1.addCard(players[index].hand, false);
-                        break;
-                    case 2:
-                        let mainDonneur2 = new Hand("player2");
-                        mainDonneur2.addCard(players[index].hand, false);
-                        break;
-                    case 3:
-                        let mainDonneur3 = new Hand("player3");
-                        mainDonneur3.addCard(players[index].hand, false);
-                        break;
 
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        let main0 = new Hand("player0");
-                        main0.addCard(players[index].hand, false);
-                        break;
-                    case 1:
-                        let main1 = new Hand("player1");
-                        main1.addCard(players[index].hand, false);
-                        break;
-                    case 2:
-                        let main2 = new Hand("player2");
-                        main2.addCard(players[index].hand, false);
-                        break;
-                    case 3:
-                        let main3 = new Hand("player3");
-                        main3.addCard(players[index].hand, false);
-                        break;
+    if (players[donneur].socketId === socket.id) {
 
+        boutonChoix.style.display = "flex";
+
+        let p = document.createElement("p");
+        p.id = `player${donneur}data`;
+        p.className = "blanc";
+        let content = document.createTextNode(
+            `${players[donneur].username}`
+        );
+        let content1 = document.createTextNode(
+            `Score : ${players[donneur].score}`
+        );
+
+        p.appendChild(content);
+        p.appendChild(document.createElement("br"));
+        p.appendChild(content1);
+        let V = {
+            prop0: "player0",
+            prop1: "player1",
+            prop2: "player2",
+            prop3: "player3",
+        };
+        let a = V["prop" + donneur];
+        eval(a).appendChild(p);
+
+        let main = new Hand("player0");
+        main.addCard(players[donneur].hand, false);
+
+        for (let index = 1; index < players.length; index++) {
+
+            let p = document.createElement("p");
+            p.id = `player${index}data`;
+            p.className = "blanc";
+            let content = document.createTextNode(
+                `${players[index].username}`
+            );
+            let content1 = document.createTextNode(
+                `Score : ${players[index].score}`
+            );
+
+            p.appendChild(content);
+            p.appendChild(document.createElement("br"));
+            p.appendChild(content1);
+            let V = {
+                prop1: "player1",
+                prop2: "player2",
+                prop3: "player3",
+            };
+            let a = V["prop" + index];
+            eval(a).append(p);
+        }
+
+    } else {
+        for (let index = 1; index < players.length; index++) {
+
+            if (players[index].socketId === socket.id) {
+                let p = document.createElement("p");
+                p.id = `player${index}data`;
+                p.className = "blanc";
+                let content = document.createTextNode(
+                    `${players[index].username}`
+                );
+                let content1 = document.createTextNode(
+                    `Score : ${players[index].score}`
+                );
+
+                p.appendChild(content);
+                p.appendChild(document.createElement("br"));
+                p.appendChild(content1);
+                let V = {
+                    prop0: "player0",
+                    prop1: "player1",
+                    prop2: "player2",
+                    prop3: "player3",
+                };
+                let a = V["prop0"];
+                eval(a).append(p);
+
+                let main = new Hand("player0");
+                main.addCard(players[index].hand, false);
+
+                if (index == 1) {
+                    [0, 2, 3].forEach(el => {
+                        let p = document.createElement("p");
+                        p.id = `player${el}data`;
+                        p.className = "blanc";
+                        let content = document.createTextNode(
+                            `${players[el].username}`
+                        );
+                        let content1 = document.createTextNode(
+                            `Score : ${players[el].score}`
+                        );
+
+                        p.appendChild(content);
+                        p.appendChild(document.createElement("br"));
+                        p.appendChild(content1);
+                        let V = {
+                            prop0: "player0",
+                            prop1: "player1",
+                            prop2: "player2",
+                            prop3: "player3",
+                        };
+                        if (el == 0) {
+                            let a = V["prop3"];
+                            eval(a).append(p);
+                        } else if (el == 2) {
+                            let a = V["prop1"];
+                            eval(a).append(p);
+                        } else {
+                            let a = V["prop2"];
+                            eval(a).append(p);
+                        }
+
+                    });
+                } else if (index == 2) {
+                    [0, 1, 3].forEach(el => {
+                        let p = document.createElement("p");
+                        p.id = `player${el}data`;
+                        p.className = "blanc";
+                        let content = document.createTextNode(
+                            `${players[el].username}`
+                        );
+                        let content1 = document.createTextNode(
+                            `Score : ${players[el].score}`
+                        );
+
+                        p.appendChild(content);
+                        p.appendChild(document.createElement("br"));
+                        p.appendChild(content1);
+                        let V = {
+                            prop0: "player0",
+                            prop1: "player1",
+                            prop2: "player2",
+                            prop3: "player3",
+                        };
+                        if (el == 0) {
+                            let a = V["prop2"];
+                            eval(a).append(p);
+                        } else if (el == 1) {
+                            let a = V["prop3"];
+                            eval(a).append(p);
+                        } else {
+                            let a = V["prop1"];
+                            eval(a).append(p);
+                        }
+
+                    });
+                } else {
+                    [0, 1, 2].forEach(el => {
+                        let p = document.createElement("p");
+                        p.id = `player${el}data`;
+                        p.className = "blanc";
+                        let content = document.createTextNode(
+                            `${players[el].username}`
+                        );
+                        let content1 = document.createTextNode(
+                            `Score : ${players[el].score}`
+                        );
+
+                        p.appendChild(content);
+                        p.appendChild(document.createElement("br"));
+                        p.appendChild(content1);
+                        let V = {
+                            prop0: "player0",
+                            prop1: "player1",
+                            prop2: "player2",
+                            prop3: "player3",
+                        };
+                        if (el == 0) {
+                            let a = V["prop1"];
+                            eval(a).append(p);
+                        } else if (el == 1) {
+                            let a = V["prop2"];
+                            eval(a).append(p);
+                        } else {
+                            let a = V["prop3"];
+                            eval(a).append(p);
+                        }
+
+                    });
                 }
-            }
-        } else {
-            switch (index) {
-                case 0:
-                    let main0 = new Hand("player0");
-                    main0.addCard(players[index].hand, true);
-                    break;
-                case 1:
-                    let main1 = new Hand("player1");
-                    main1.addCard(players[index].hand, true);
-                    break;
-                case 2:
-                    let main2 = new Hand("player2");
-                    main2.addCard(players[index].hand, true);
-                    break;
-                case 3:
-                    let main3 = new Hand("player3");
-                    main3.addCard(players[index].hand, true);
-                    break;
 
             }
         }
-
     }
+
+
 
 });
 
-document.getElementById('buttonChoix').addEventListener('click', e => {
+boutonChoix.addEventListener('click', e => {
     e.preventDefault();
     console.log(e.target.value)
-    document.getElementById("buttonChoix").style.display = "none";
+    boutonChoix.style.display = "none";
     let choix = e.target.value;
     socket.emit("choixContrat", {
         socketId: socket.id,
@@ -111,9 +239,9 @@ document.getElementById('buttonChoix').addEventListener('click', e => {
 });
 
 socket.on('contrat', data => {
-    let zoneDeJeu = document.getElementById("zoneDeJeu");
     let p = document.createElement("p");
     p.id = "contrat";
+    p.className = "blanc";
     let content = document.createTextNode(
         `Contrat : ${data.choix}`
     );
@@ -122,12 +250,11 @@ socket.on('contrat', data => {
 });
 
 socket.on("gameInfo", function (info) {
-    console.log(info);
     gameInfo = info;
 
-    let zoneDeJeu = document.getElementById("zoneDeJeu");
     let p = document.createElement("p");
     p.id = "tableIndex";
+    p.className = "blanc";
     let content = document.createTextNode(
         `Table : n°${gameInfo.tableIndex}`
     );
@@ -137,11 +264,9 @@ socket.on("gameInfo", function (info) {
 
 
 
-var startGame = function () {
-    console.log(socket);
-    var username = $('#username').val();
+const startGame = function () {
+    let username = $('#username').val();
 
-    console.log(username);
     socket.emit('join', {
         username: username
     });

@@ -45,7 +45,6 @@ class Hand {
                 node.style.left = 1 + "em";
                 top += this.topIncr;
             }
-
             this.cardsNode.appendChild(node);
         });
     }
