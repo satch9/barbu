@@ -11,6 +11,7 @@ module.exports = function (server) {
     let plateauName = "Plateau Bot";
     let players;
     let game;
+    let tour = 4;
 
     io.on('connection', function (socket) {
         console.log('new connection ', socket.id);
@@ -35,7 +36,7 @@ module.exports = function (server) {
             );
 
             if (game.getNumPlayers() < connectionsLimit) {
-                game.emitOnePlayer(socket, "message",
+                game.emitPlayers("message",
                     formatMessage(plateauName, "nous attendons un autre joueur."));
             } else if (game.getNumPlayers() == connectionsLimit) {
                 game.emitPlayers('gameInfo', {
@@ -48,9 +49,13 @@ module.exports = function (server) {
         });
 
         socket.on('choixContrat', data => {
-            console.log(data);
-            game.refreshChoiceContrat(data.socketId, data.choix);
-            game.emitPlayers('contrat', data);
+            console.log("choixContrat ", data);
+            game.turn(data);
+        });
+
+        socket.on('sendCard', payload => {
+            console.log(payload);
+            console.log(socket.id);
         });
 
         socket.on('disconnect', function () {

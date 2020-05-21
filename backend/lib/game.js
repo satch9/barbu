@@ -46,7 +46,10 @@ class Game {
         if (this.getNumPlayers() >= 2) {
             this.emitPlayers('message', formatMessage(plateauName, `Bienvenue ${playername}`));
         } else {
-            this.emitOnePlayer(socket, 'message', formatMessage(plateauName, `Bienvenue ${playername}`));
+            if (this.getNumPlayers.length == 0) {
+                this.emitOnePlayer(0, 'message', formatMessage(plateauName, `Bienvenue ${playername}`));
+            }
+
         }
 
     }
@@ -70,7 +73,8 @@ class Game {
                     'choiceContrat': p.choiceContrat
                 }
             }),
-            'donneur': this.getDonneur()
+            'donneur': this.getDonneur(),
+            'peut_jouer': true
         });
         this.emitPlayers('message', formatMessage(plateauName, `Cartes distribuées. `));
         this.emitPlayers('message', formatMessage(plateauName, `La partie peut commencer.`));
@@ -97,7 +101,7 @@ class Game {
     }
 
 
-    refreshCards() {
+    refreshCards(peut_jouer) {
         for (var pn = 0; pn < this.getNumPlayers(); pn++) {
             this.players[pn].hand.sort(function (a, b) {
                 return a.suit > b.suit;
@@ -105,9 +109,18 @@ class Game {
         }
     }
 
-    refreshChoiceContrat(socketId, contrat) {
-        this.findPlayer(socketId).setChoiceContrat(contrat);
-        console.log(this.players);
+    turn(d) {
+        this.refreshChoiceContrat(d);
+        this.emitPlayers('contrat', d);
+        this.emitPlayers('message', formatMessage(plateauName, `C'est au tour de ${this.players[d.joueur_suivant].username} de jouer.`));
+        this.emitPlayers('jouer1carte', {
+            'player': d.joueur_suivant,
+            'peut_jouer': true
+        });
+    }
+
+    refreshChoiceContrat(data) {
+        this.findPlayer(data.socketId).setChoiceContrat(data.choix);
     }
 
     hasGameEnded() {
@@ -123,8 +136,8 @@ class Game {
             this.players[pn].emit(eventName, payload);
         }
     }
-    emitOnePlayer(socket, eventName, payload) {
-        socket.emit(eventName, payload);
+    emitOnePlayer(pn, eventName, payload) {
+        this.players[pn].emit(eventName, payload);
     }
     findPlayer(socketId) {
         for (var pn = 0; pn < this.getNumPlayers(); pn++) {

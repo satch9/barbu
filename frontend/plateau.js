@@ -9,9 +9,12 @@ let usernameBox = document.getElementById("usernameBox");
 let ecrire = document.getElementById("ecrire");
 let plateau = document.getElementById("plateau");
 let boutonChoix = document.getElementById("buttonChoix");
+let player0CardsArea = document.getElementById("player0Cards");
 let player1 = document.getElementById("player1");
 let player2 = document.getElementById("player2");
 let player3 = document.getElementById("player3");
+let card0 = document.getElementById("card0");
+
 
 socket.on("message", data => {
     afficheMessage(data);
@@ -25,6 +28,7 @@ socket.on('startGame', function (data) {
 
     players = data.players;
     donneur = data.donneur;
+    peut_jouer = data.peut_jouer;
 
     let p = document.createElement("p");
     p.id = "donneur";
@@ -63,7 +67,7 @@ socket.on('startGame', function (data) {
         eval(a).appendChild(p);
 
         let main = new Hand("player0");
-        main.addCard(players[donneur].hand, false);
+        main.addCard(players[donneur].hand, false, peut_jouer);
 
         for (let index = 1; index < players.length; index++) {
 
@@ -116,7 +120,7 @@ socket.on('startGame', function (data) {
                 eval(a).append(p);
 
                 let main = new Hand("player0");
-                main.addCard(players[index].hand, false);
+                main.addCard(players[index].hand, false, peut_jouer);
 
                 if (index == 1) {
                     [0, 2, 3].forEach(el => {
@@ -232,10 +236,24 @@ boutonChoix.addEventListener('click', e => {
     console.log(e.target.value)
     boutonChoix.style.display = "none";
     let choix = e.target.value;
+
+    let joueur_suivant = donneur;
+    if (joueur_suivant == 5) {
+        joueur_suivant = 0;
+    } else {
+        joueur_suivant++;
+    }
+
     socket.emit("choixContrat", {
         socketId: socket.id,
-        choix: choix
+        choix: choix,
+        joueur_suivant: joueur_suivant
     });
+});
+
+socket.on('jouer1carte', data => {
+    console.log('play_a_card ', data);
+
 });
 
 socket.on('contrat', data => {

@@ -1,7 +1,9 @@
 class Card {
-    constructor(rank, suit) {
+    constructor(rank, suit, index, peut_jouer) {
         this.rank = rank;
         this.suit = suit;
+        this.index = index;
+        this.peut_jouer = peut_jouer;
     }
     cardToString() {
         let rank = "";
@@ -81,9 +83,34 @@ class Card {
 
         cardNode = document.createElement("DIV");
         cardNode.className = "card";
-        cardNode.onclick = function () {
-            selectedCard();
-        };
+        cardNode.id = "card" + this.index;
+
+        cardNode.onclick = function selectedCard(card) {
+            let selectedCard;
+            if (card.path.length == 15) {
+                selectedCard = card.path[2].id;
+
+            } else {
+                selectedCard = card.path[1].id;
+            }
+            document.getElementById(selectedCard).classList.add('selected');
+            //document.getElementById(selectedCard).classList.remove('selected');
+            document.getElementById(selectedCard).style.top = "0em";
+
+
+
+        }
+        cardNode.ondblclick = function selectedCard(card) {
+            let selectedCard;
+            if (card.path.length == 15) {
+                selectedCard = card.path[2].id;
+            } else {
+                selectedCard = card.path[1].id;
+            }
+            document.getElementById(selectedCard).classList.remove('selected');
+            document.getElementById(selectedCard).style.top = "1.5em";
+
+        }
 
         // Build the front of card.
 
