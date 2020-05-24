@@ -253,7 +253,16 @@ boutonChoix.addEventListener('click', e => {
 
 socket.on('jouer1carte', data => {
     console.log('play_a_card ', data);
+    player0CardsArea.addEventListener('dblclick', (e) => {
+        playedCard(e, data.player)
+    });
+});
 
+socket.on('playedCard', data => {
+    console.log(data.index);
+    Hand.addOneCard(
+        data.rank.shortName,
+        data.suit.name, data.peut_jouer);
 });
 
 socket.on('contrat', data => {

@@ -56,6 +56,9 @@ module.exports = function (server) {
         socket.on('sendCard', payload => {
             console.log(payload);
             console.log(socket.id);
+            socket.broadcast.emit('playedCard', {
+                'cardplayed': payload.cardPlayed
+            });
         });
 
         socket.on('disconnect', function () {

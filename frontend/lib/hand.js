@@ -3,6 +3,7 @@ class Hand {
         this.id = id;
         this.fieldNode = document.getElementById(id);
         this.cardsNode = document.getElementById(id + "Cards");
+        this.zoneDeJeuNode = document.getElementById('zoneDeJeu');
         //this.scoreTextNode = document.getElementById(id + "Score").firstChild;
         this.leftIncr = 1.3;
         this.topIncr = 1.5;
@@ -50,6 +51,18 @@ class Hand {
             this.cardsNode.appendChild(node);
             index++;
         });
+    }
+
+    static addOneCard(cardRank,cardSuit, peut_jouer) {
+        let node;
+        console.log('card', card);
+        let c = new Card(cardRank, cardSuit, peut_jouer);
+
+        node = c.cardCreateNode();
+        
+        this.zoneDeJeuNode.appendChild(node);
+
+
     }
 
 }
