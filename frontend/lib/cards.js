@@ -85,24 +85,25 @@ class Card {
         cardNode.className = "card";
         cardNode.id = "card" + this.index;
 
-        let count =0;
+        let count = 0;
         cardNode.onclick = function selectedCard(card) {
             let selectedCard;
             count++;
+            console.log("card.path", card);
             if (card.path.length == 15) {
                 selectedCard = card.path[2].id;
 
             } else {
                 selectedCard = card.path[1].id;
             }
-            if(count % 2 ==0){
+            if (count % 2 == 0) {
                 document.getElementById(selectedCard).classList.remove('selected');
                 document.getElementById(selectedCard).style.top = "1.5em";
-            }else{
+            } else {
                 document.getElementById(selectedCard).classList.add('selected');
                 document.getElementById(selectedCard).style.top = "0em";
             }
-               
+
         }
 
         // Build the front of card.
@@ -114,6 +115,7 @@ class Card {
         // necessary.
 
         spotChar = "\u00a0";
+        //console.log("this.suit", this.suit);
         switch (this.suit.name) {
             case "clubs":
                 spotChar = "\u2663";

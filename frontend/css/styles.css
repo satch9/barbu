@@ -123,8 +123,12 @@ body {
 
 #zoneDeJeu {
     width: 100%;
-    height: 150px;
+    height: 200px;
     padding: 35px;
+}
+
+#player2 {
+    height: 100px;
 }
 
 /*/////Affichage des cartes///////*/

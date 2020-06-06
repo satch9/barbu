@@ -258,12 +258,7 @@ socket.on('jouer1carte', data => {
     });
 });
 
-socket.on('playedCard', data => {
-    console.log(data.index);
-    Hand.addOneCard(
-        data.rank.shortName,
-        data.suit.name, data.peut_jouer);
-});
+
 
 socket.on('contrat', data => {
     let p = document.createElement("p");

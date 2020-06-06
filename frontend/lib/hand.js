@@ -53,16 +53,18 @@ class Hand {
         });
     }
 
-    static addOneCard(cardRank,cardSuit, peut_jouer) {
+    static addOneCard(cardRank, cardSuit, index, peut_jouer) {
         let node;
-        console.log('card', card);
-        let c = new Card(cardRank, cardSuit, peut_jouer);
+        let left = 1;
+        let leftIncr = 0.8;
+        let c = new Card(cardRank, cardSuit, index, peut_jouer);
 
         node = c.cardCreateNode();
-        
-        this.zoneDeJeuNode.appendChild(node);
+        node.style.left = left + "em";
+        node.style.top = "1.5em";
+        left += leftIncr;
 
-
+        document.getElementById('zoneDeJeu').append(node);
     }
 
 }

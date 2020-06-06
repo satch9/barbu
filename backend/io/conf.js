@@ -54,11 +54,11 @@ module.exports = function (server) {
         });
 
         socket.on('sendCard', payload => {
-            console.log(payload);
+            console.log("payload", payload);
             console.log(socket.id);
-            socket.broadcast.emit('playedCard', {
-                'cardplayed': payload.cardPlayed
-            });
+            socket.broadcast.emit('playedCard',
+                payload
+            );
         });
 
         socket.on('disconnect', function () {

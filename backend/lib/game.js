@@ -87,7 +87,7 @@ class Game {
         // Draw a hand of 8 cards from the deck
         for (let p = 0; p < this.players.length; p++) {
             let hand = this.deck.draw(this.cardsPerPlayer);
-console.log('hand', hand);
+            console.log('hand', hand.rank);
             hand.sort(function (a, b) {
                 return a.suit > b.suit;
             });
